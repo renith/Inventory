@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+						xmlns:util="http://www.springframework.org/schema/util"
+						xmlns:mvc="http://www.springframework.org/schema/mvc"
+						xmlns:context="http://www.springframework.org/schema/context"
+						xmlns:tx="http://www.springframework.org/schema/tx"
+						xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+
+						xsi:schemaLocation="http://www.springframework.org/schema/mvc
+						http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+						http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+						http://www.springframework.org/schema/tx
+						http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+						http://www.springframework.org/schema/context
+						http://www.springframework.org/schema/context/spring-context-4.0.xsd
+						http://www.springframework.org/schema/util
+						http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+
+
+
+			<mvc:annotation-driven />
+			<mvc:resources mapping="/**" location="/" />
+			<context:annotation-config />
+			<context:component-scan base-package="com.module.admin" />
+			<context:component-scan base-package="com.module.customer" />
+			
+			<context:property-placeholder location="classpath:resources/database.properties" />
+			<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+
+
+
+			<bean id="jspViewResolver"
+				class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+				<property name="viewClass"
+					value="org.springframework.web.servlet.view.JstlView" />
+				<property name="prefix" value="WEB-INF/jsp/" />
+				<property name="suffix" value=".jsp" />
+			</bean>
+
+
+			<!-- Hibernate Config  datasource,sessionfactory,transaction amnager-->
+
+			<tx:annotation-driven transaction-manager="hibernateTransactionManager" />
+
+				<bean id="hibernateTransactionManager"
+						class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+						<property name="sessionFactory" ref="sessionFactory" />
+					</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="com.module.admin" />
+		<property name="hibernateProperties">
+			<props>
+
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				 <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+				<!-- <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop> -->
+				<prop key="hibernate.c3p0.min_size">${hibernate.c3p0.min_size}</prop>
+				<prop key="hibernate.c3p0.max_size">${hibernate.c3p0.max_size}</prop>
+				<prop key="hibernate.c3p0.timeout">${hibernate.c3p0.timeout}</prop>
+				<prop key="hibernate.c3p0.max_statements">${hibernate.c3p0.max_statements}</prop>
+				<prop key="hibernate.c3p0.idle_test_period">${hibernate.c3p0.idle_test_period}</prop>
+				<prop key="hibernate.c3p0.acquire_increment">${hibernate.c3p0.acquire_increment}</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${database.driver}" />
+		<property name="url" value="${database.url}" />
+		<property name="username" value="${database.user}" />
+		<property name="password" value="${database.password}" />
+	</bean>
+
+    <bean id="AdminServiceInterface" class="com.module.admin.AdminServiceImpl"></bean>
+    <bean id="AdminDaoInterface" class="com.module.admin.AdminDaoImpl"></bean>
+    
+    <bean id="CustomerServiceInterface" class="com.module.customer.CustomerServiceImpl"></bean>
+    <bean id="CustomerDaoInterface" class="com.module.customer.CustomerDaoImpl"></bean>
+
+
+</beans>

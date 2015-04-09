@@ -6,6 +6,8 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.module.beans.CustomerEntity;
+
 public class CustomerServiceImpl implements CustomerServiceInterface {
 	
 	private final CustomerDaoInterface customerDaoInterface;
@@ -17,6 +19,7 @@ public class CustomerServiceImpl implements CustomerServiceInterface {
 	}
 	
 	@Override
+	@Transactional
 	public List<CustomerEntity> findAll() {
 		return customerDaoInterface.findAll();
 	}

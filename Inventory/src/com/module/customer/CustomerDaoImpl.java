@@ -5,14 +5,17 @@ import java.util.List;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.module.beans.CustomerEntity;
+
 public class CustomerDaoImpl implements CustomerDaoInterface {
 	
 	@Autowired
     private SessionFactory sessionFactory;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<CustomerEntity> findAll() {
-		return null;
+		return sessionFactory.getCurrentSession().createQuery("from CustomerEntity").list();
 	}
 
 	@Override
@@ -22,9 +25,14 @@ public class CustomerDaoImpl implements CustomerDaoInterface {
 
 	@Override
 	public String create(CustomerEntity customerEntity) {
+		String created = "";
 		int i =  (Integer) this.sessionFactory.getCurrentSession().save(customerEntity);
-		System.out.println(i);
-		return "success";
+		if(i!=0){
+			created = "success";
+		}else{
+			created = "failed";
+		}
+		return created;
 	}
 
 	@Override

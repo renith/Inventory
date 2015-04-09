@@ -1,4 +1,4 @@
-package com.module.admin;
+package com.module.books;
 
 import java.util.List;
 
@@ -9,38 +9,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.module.beans.BooksEntity;
+
 @RestController
-@RequestMapping("/admin")
-public class AdminController {
+@RequestMapping("/bookDetails")
+public class BooksController {
 	
-	public AdminController()
+	public BooksController()
 	{
 	}
 	
 	@Autowired
-	private AdminServiceInterface adminService;
+	private BooksServiceInterface adminService;
 			
 	@RequestMapping(method = RequestMethod.POST)
-	String create(@RequestBody AdminEntity adminEntity)
+	String create(@RequestBody BooksEntity adminEntity)
 	{
-		String returnValue = adminService.create(adminEntity);
-		return "success";
+		String create = adminService.create(adminEntity);
+		return create;
 	}
 	
 	@RequestMapping(value = "{bookName}", method = RequestMethod.POST)
-    List<AdminEntity> findByBookName(@PathVariable("bookName") String bookName) {
-		System.out.println("bookName--"+bookName);
+    List<BooksEntity> findByBookName(@PathVariable("bookName") String bookName) {
       	return null;
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
-    List<AdminEntity> findAll() {
-        List<AdminEntity> admin = adminService.findAll();
-        return admin;
+    List<BooksEntity> findAll() {
+        List<BooksEntity> booksDetails = adminService.findAll();
+        return booksDetails;
     }
 			
 	 @RequestMapping(value = "{inventoryId}", method = RequestMethod.GET)
-	 AdminEntity findById(@PathVariable("inventoryId") String id) {
+	 BooksEntity findById(@PathVariable("inventoryId") String id) {
 		 System.out.println(id);
 		 return null;
 	    }
@@ -51,8 +52,7 @@ public class AdminController {
 	 }
 	  
 	  @RequestMapping(method=RequestMethod.PUT, value="{inventoryId}")
-	  public AdminEntity update(@PathVariable("inventoryId") String inventoryId, @RequestBody AdminEntity adminEntity) {
-		  System.out.println(" InventoryId----"+inventoryId+"  book Name---"+adminEntity.getBookName()+" authorName--" +adminEntity.getAuthor());
+	  public BooksEntity update(@PathVariable("inventoryId") String inventoryId, @RequestBody BooksEntity adminEntity) {
 		  return null;
 	  }
 	 

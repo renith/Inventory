@@ -1,11 +1,12 @@
-package com.module.customer;
+package com.module.order;
 
-public class CustomerNotFoundException extends RuntimeException {
+public class OrderNotFoundException extends RuntimeException{
 	
 	private static final long serialVersionUID = 1L;
 
-	public CustomerNotFoundException(String id) {
+	public OrderNotFoundException(String id) {
         super(String.format("No product entry found with id: <%s>", id));
     }
+
 
 }
